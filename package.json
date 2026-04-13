@@ -3,6 +3,37 @@
   "version": "0.1.0",
   "description": "Local MCP server for project documentation search",
   "type": "module",
+  "author": {
+    "name": "myr0IX",
+    "url": "https://github.com/myr0IX"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "documentation",
+    "search",
+    "full-text-search",
+    "fts5",
+    "sqlite",
+    "rag",
+    "local",
+    "cli",
+    "ai",
+    "developer-tools"
+  ],
+  "homepage": "https://github.com/toi/docs-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toi/docs-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/toi/docs-mcp/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "types": "./dist/index.d.ts",
   "bin": {
     "docs-mcp": "./dist/cli/cli.js"
   },
