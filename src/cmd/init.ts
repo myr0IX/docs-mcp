@@ -24,7 +24,7 @@ export const initCommand: Command = {
         mcpServers: {
           docs: {
             command: "npx",
-            args: ["docs-mcp", "--docs", "./docs"],
+            args: ["@myr0ix/docs-mcp", "--docs", "./docs"],
           },
         },
       };
