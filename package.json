@@ -22,13 +22,13 @@
     "ai",
     "developer-tools"
   ],
-  "homepage": "https://github.com/toi/docs-mcp#readme",
+  "homepage": "https://github.com/myr0IX/docs-mcp#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/toi/docs-mcp.git"
+    "url": "https://github.com/myr0IX/docs-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/toi/docs-mcp/issues"
+    "url": "https://github.com/myr0IX/docs-mcp/issues"
   },
   "engines": {
     "node": ">=18.0.0"

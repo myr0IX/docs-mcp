@@ -4,7 +4,7 @@ A local MCP server that indexes your Markdown documentation and exposes a full-t
 
 ## How it works
 
-1. You run `npx docs-mcp init` in your project
+1. You run `npx @myr0ix/docs-mcp init` in your project
 2. It creates a `docs/` folder and a `.mcp.json` config file
 3. Claude Code picks up the server automatically via `.mcp.json`
 4. When you ask Claude a question, it uses the `search_docs` tool to search your docs
@@ -14,7 +14,7 @@ The index is stored locally in `.docs-index/` (SQLite FTS5 with a Porter stemmer
 ## Installation
 
 ```bash
-npx docs-mcp init
+npx @myr0ix/docs-mcp init
 ```
 
 That's it. This command:
