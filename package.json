@@ -33,9 +33,8 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "types": "./dist/index.d.ts",
   "bin": {
-    "docs-mcp": "./dist/cli/cli.js"
+    "docs-mcp": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
