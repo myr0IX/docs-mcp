@@ -1,19 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
-import { parseArgs } from "node:util";
+import { parseCliArgs } from "../utils/args.js";
+import { writeConfig } from "../utils/config.js";
 import { type Command } from "./types.js";
 
 export const initCommand: Command = {
   description: "Initialize docs-mcp in the current project",
   run() {
-    const { values } = parseArgs({
-      allowPositionals: true,
-      options: {
-        docs: { type: "string", short: "d" },
-      },
-    });
-
-    const docsFolder = values.docs ?? "docs";
+    const { docsArg } = parseCliArgs();
+    const docsFolder = docsArg ?? "docs";
     const cwd = process.cwd();
     const docsDir = path.join(cwd, docsFolder);
     const mcpFile = path.join(cwd, ".mcp.json");
@@ -26,6 +21,9 @@ export const initCommand: Command = {
       console.log(`Created ${docsFolder}/`);
     }
 
+    writeConfig({ docs: `./${docsFolder}` });
+    console.log("Created docs-mcp.config.json");
+
     if (fs.existsSync(mcpFile)) {
       console.log(".mcp.json already exists, skipping.");
     } else {
@@ -33,7 +31,7 @@ export const initCommand: Command = {
         mcpServers: {
           docs: {
             command: "npx",
-            args: ["@myr0ix/docs-mcp", "start", "--docs", `./${docsFolder}`],
+            args: ["@myr0ix/docs-mcp", "start"],
           },
         },
       };

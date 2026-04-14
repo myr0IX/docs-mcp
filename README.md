@@ -6,7 +6,7 @@ The index is stored locally in `.docs-index/` (SQLite FTS5). Nothing leaves your
 
 ## How it works
 
-1. Run `npx @myr0ix/docs-mcp init` in your project — creates the docs folder and `.mcp.json`.
+1. Run `npx @myr0ix/docs-mcp init` in your project — creates the docs folder, `docs-mcp.config.json`, and `.mcp.json`.
 2. Add Markdown files to your docs folder.
 3. Your MCP client picks up the server via `.mcp.json` and launches it automatically.
 4. When your AI assistant needs context, it calls the `search_docs` tool.
@@ -20,20 +20,23 @@ npx @myr0ix/docs-mcp init
 This command:
 
 - Creates a `docs/` folder (or the path you specify with `--docs`).
-- Generates a `.mcp.json` pointing to the MCP server.
+- Saves the docs path to `docs-mcp.config.json` at the project root.
+- Generates a `.mcp.json` so your MCP client can auto-start the server.
 - Adds `.docs-index/` to your `.gitignore`.
 
 Custom docs folder:
 
 ```bash
-npx @myr0ix/docs-mcp init --docs ./documentation
+npx @myr0ix/docs-mcp init --docs ./wiki
 ```
+
+The path is saved once. You never need to specify it again.
 
 ## CLI commands
 
 ### `init`
 
-Set up docs-mcp in the current project.
+Set up docs-mcp in the current project. Run once.
 
 ```bash
 npx @myr0ix/docs-mcp init [--docs <path>]
@@ -48,50 +51,29 @@ npx @myr0ix/docs-mcp init [--docs <path>]
 Start the MCP server. Called automatically by your MCP client via `.mcp.json`.
 
 ```bash
-npx @myr0ix/docs-mcp start --docs <path>
+npx @myr0ix/docs-mcp start
 ```
 
-| Option | Required | Description |
-|--------|----------|-------------|
-| `--docs`, `-d` | yes | Path to the docs folder to index and serve |
+Reads the docs path from `docs-mcp.config.json`. Pass `--docs <path>` to override.
 
 ### `index`
 
-Manually (re)index a docs folder without starting the server. Useful after bulk edits.
+Manually re-index the docs folder without restarting the server.
 
 ```bash
-npx @myr0ix/docs-mcp index --docs <path>
+npx @myr0ix/docs-mcp index
 ```
 
-| Option | Required | Description |
-|--------|----------|-------------|
-| `--docs`, `-d` | yes | Path to the docs folder to index |
+Reads the docs path from `docs-mcp.config.json`. Pass `--docs <path>` to override.
 
 ## The `search_docs` tool
 
-```json
-{
-  "name": "search_docs",
-  "description": "Full-text search over your local Markdown documentation",
-  "input_schema": {
-    "type": "object",
-    "properties": {
-      "query": {
-        "type": "string",
-        "description": "Full-text search query"
-      },
-      "limit": {
-        "type": "number",
-        "minimum": 1,
-        "maximum": 20,
-        "default": 5,
-        "description": "Number of chunks to return"
-      }
-    },
-    "required": ["query"]
-  }
-}
-```
+The MCP tool exposed to your AI assistant:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `query` | string | yes | Full-text search query |
+| `limit` | number (1–20) | no | Number of chunks to return (default: 5) |
 
 Results are ranked by relevance and returned as structured text chunks (heading, source path, content).
 

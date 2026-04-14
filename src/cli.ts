@@ -5,6 +5,7 @@ import { commands } from "./cmd/index.js";
 
 const { positionals } = parseArgs({
   allowPositionals: true,
+  strict: false,
 });
 
 const commandName = positionals[0];
