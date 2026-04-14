@@ -39,7 +39,7 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/cli.ts start --docs ./docs",
     "typecheck": "tsc --noEmit"
   },
   "files": [

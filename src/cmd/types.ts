@@ -1,4 +1,4 @@
 export type Command = {
   description: string;
-  run: () => void;
+  run: () => void | Promise<void>;
 };

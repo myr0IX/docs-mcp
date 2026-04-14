@@ -7,6 +7,7 @@ export type Args = {
 
 export function parseCliArgs(): Args {
   const { values } = parseArgs({
+    allowPositionals: true,
     options: {
       docs: {
         type: "string",
@@ -16,7 +17,7 @@ export function parseCliArgs(): Args {
   });
 
   if (!values.docs) {
-    console.error("Usage: docs-mcp --docs <path-to-docs>");
+    console.error("Usage: docs-mcp start --docs <path-to-docs>");
     process.exit(1);
   }
 

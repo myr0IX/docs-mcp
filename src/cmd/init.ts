@@ -1,20 +1,29 @@
 import fs from "node:fs";
 import path from "node:path";
+import { parseArgs } from "node:util";
 import { type Command } from "./types.js";
 
 export const initCommand: Command = {
   description: "Initialize docs-mcp in the current project",
   run() {
+    const { values } = parseArgs({
+      allowPositionals: true,
+      options: {
+        docs: { type: "string", short: "d" },
+      },
+    });
+
+    const docsFolder = values.docs ?? "docs";
     const cwd = process.cwd();
-    const docsDir = path.join(cwd, "docs");
+    const docsDir = path.join(cwd, docsFolder);
     const mcpFile = path.join(cwd, ".mcp.json");
     const gitignore = path.join(cwd, ".gitignore");
 
     if (fs.existsSync(docsDir)) {
-      console.log("docs/ folder already exists, skipping.");
+      console.log(`${docsFolder}/ folder already exists, skipping.`);
     } else {
-      fs.mkdirSync(docsDir);
-      console.log("Created docs/");
+      fs.mkdirSync(docsDir, { recursive: true });
+      console.log(`Created ${docsFolder}/`);
     }
 
     if (fs.existsSync(mcpFile)) {
@@ -24,7 +33,7 @@ export const initCommand: Command = {
         mcpServers: {
           docs: {
             command: "npx",
-            args: ["@myr0ix/docs-mcp", "--docs", "./docs"],
+            args: ["@myr0ix/docs-mcp", "start", "--docs", `./${docsFolder}`],
           },
         },
       };
@@ -46,7 +55,7 @@ export const initCommand: Command = {
     }
 
     console.log(
-      "\ndocs-mcp initialized. Add your documentation to docs/ and start Claude Code.",
+      `\ndocs-mcp initialized. Add your documentation to ${docsFolder}/ and start Claude Code.`,
     );
   },
 };

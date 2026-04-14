@@ -25,4 +25,4 @@ if (!command) {
   process.exit(1);
 }
 
-command.run();
+await command.run();

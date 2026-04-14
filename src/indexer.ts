@@ -4,12 +4,13 @@ import { InsertChunk, InsertChunkSchema } from "./schema.js";
 import { estimateTokens } from "./utils/estimate-tokens.js";
 import { parseMarkdown } from "./utils/parse-markdown.js";
 import { getAllMarkdownFiles } from "./utils/get-all-markdown-files.js";
+import { logger } from "./utils/logger.js";
 
 export function indexDocs(docsPath: string, db: Database.Database): void {
   const files = getAllMarkdownFiles(docsPath);
 
   if (files.length === 0) {
-    console.error(`No markdown file found in ${docsPath}`);
+    logger.error(`No markdown file found in ${docsPath}`);
     return;
   }
 
@@ -36,9 +37,6 @@ export function indexDocs(docsPath: string, db: Database.Database): void {
   }
 
   insertAll(allChunks);
-
-  console.log(`Index : ${allChunks.length} chunks from ${files.length} files`);
-  console.log(`Source tokens estimate : ${totalSourceTokens}`);
 }
 
 export function searchChunks(
