@@ -6,39 +6,66 @@ The index is stored locally in `.docs-index/` (SQLite FTS5). Nothing leaves your
 
 ## How it works
 
-1. You run `npx @myr0ix/docs-mcp init` in your project.
-2. It creates a `docs/` folder and a `.mcp.json` config file.
-3. Your MCP client (e.g. Claude Code) picks up the server via `.mcp.json`.
-4. When your AI assistant needs context, it calls the `search_docs` tool to search your docs.
+1. Run `npx @myr0ix/docs-mcp init` in your project — creates the docs folder and `.mcp.json`.
+2. Add Markdown files to your docs folder.
+3. Your MCP client picks up the server via `.mcp.json` and launches it automatically.
+4. When your AI assistant needs context, it calls the `search_docs` tool.
 
-## Installation
+## Quick start
 
 ```bash
 npx @myr0ix/docs-mcp init
 ```
 
-That's it. This command:
+This command:
 
-- Creates a `docs/` folder if it doesn't exist.
-- Generates a `.mcp.json` pointing to the server.
+- Creates a `docs/` folder (or the path you specify with `--docs`).
+- Generates a `.mcp.json` pointing to the MCP server.
 - Adds `.docs-index/` to your `.gitignore`.
 
-## Usage
+Custom docs folder:
 
-Add Markdown files to your `docs/` folder:
-
-```text
-docs/
-├── architecture.md
-├── api.md
-└── getting-started.md
+```bash
+npx @myr0ix/docs-mcp init --docs ./documentation
 ```
 
-Your MCP client will call `search_docs` automatically when it needs to look something up.
+## CLI commands
 
-You can also trigger it explicitly in your assistant, for example:
+### `init`
 
-> "Search the docs for authentication flow"
+Set up docs-mcp in the current project.
+
+```bash
+npx @myr0ix/docs-mcp init [--docs <path>]
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--docs`, `-d` | `docs` | Path to the docs folder to create and configure |
+
+### `start`
+
+Start the MCP server. Called automatically by your MCP client via `.mcp.json`.
+
+```bash
+npx @myr0ix/docs-mcp start --docs <path>
+```
+
+| Option | Required | Description |
+|--------|----------|-------------|
+| `--docs`, `-d` | yes | Path to the docs folder to index and serve |
+
+### `index`
+
+Manually (re)index a docs folder without starting the server. Useful after bulk edits.
+
+```bash
+npx @myr0ix/docs-mcp index --docs <path>
+```
+
+| Option | Required | Description |
+|--------|----------|-------------|
+| `--docs`, `-d` | yes | Path to the docs folder to index |
 
 ## The `search_docs` tool
 
@@ -51,7 +78,7 @@ You can also trigger it explicitly in your assistant, for example:
     "properties": {
       "query": {
         "type": "string",
-        "description": "Full‑text search query"
+        "description": "Full-text search query"
       },
       "limit": {
         "type": "number",
@@ -66,7 +93,7 @@ You can also trigger it explicitly in your assistant, for example:
 }
 ```
 
-Results are ranked by relevance and returned as structured text chunks (title, path, snippet, score).
+Results are ranked by relevance and returned as structured text chunks (heading, source path, content).
 
 ## Requirements
 
@@ -78,8 +105,8 @@ https://modelcontextprotocol.io/clients
 
 ## Under the hood
 
-- Standard Model Context Protocol (MCP) server
-- SQLite + FTS5 for local full‑text search
+- Standard Model Context Protocol (MCP) over stdio
+- SQLite + FTS5 for local full-text search
 - Written in TypeScript, using `better-sqlite3`, `zod`, and the official MCP TypeScript SDK
 
 ## License

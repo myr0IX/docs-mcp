@@ -37,7 +37,7 @@
     "docs-mcp": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "prepublishOnly": "npm run build",
     "dev": "tsx watch src/cli.ts start --docs ./docs",
     "typecheck": "tsc --noEmit"
