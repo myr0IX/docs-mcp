@@ -1,6 +1,6 @@
 {
   "name": "@myr0ix/docs-mcp",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Local MCP server for project documentation search",
   "type": "module",
   "author": {
